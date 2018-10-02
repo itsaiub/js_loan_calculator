@@ -22,16 +22,24 @@ const calculateResults = (e) => {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principle).toFixed(2);
+    // show results
+    document.getElementById('results').style.display = 'block';
+    // Hide loader
+    document.getElementById('loading').style.display = 'none';
+    // Clear Input
     amount.value = '';
     interest.value = '';
     years.value = '';
   } else {
     showError('Please, Check your numbers.');
   }
-  e.preventDefault();
 };
 
 const showError = (err) => {
+  // hide loader
+  document.getElementById('loading').style.display = 'none';
+  // Hide results
+  document.getElementById('results').style.display = 'none';
   // Create Div
   const errDiv = document.createElement('div');
   // Get Elements
@@ -49,4 +57,11 @@ const showError = (err) => {
   }, 3000);
 };
 
-document.getElementById('loan-form').addEventListener('submit', calculateResults);
+document.getElementById('loan-form').addEventListener('submit', (e) => {
+  // Hide results
+  document.getElementById('results').style.display = 'none';
+  // Show loader
+  document.getElementById('loading').style.display = 'block';
+  setTimeout(calculateResults, 2000);
+  e.preventDefault();
+});
